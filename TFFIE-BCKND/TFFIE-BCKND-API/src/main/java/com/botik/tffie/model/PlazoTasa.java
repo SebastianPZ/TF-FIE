@@ -9,7 +9,6 @@ import java.io.Serializable;
 
 
 @Entity
-
 @Table(name = "plazoTasa")
 @Data
 @NoArgsConstructor

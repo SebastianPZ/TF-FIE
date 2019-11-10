@@ -8,4 +8,5 @@ public interface UsuarioService {
 
     Usuario registrarUsuario(Usuario u) throws Exception;
     List<Usuario> listarUsuarios() throws Exception;
+    Usuario logearUsuario(Integer id) throws Exception;
 }

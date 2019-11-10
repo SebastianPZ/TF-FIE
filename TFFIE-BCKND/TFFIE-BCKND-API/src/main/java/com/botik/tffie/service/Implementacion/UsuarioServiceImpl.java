@@ -28,4 +28,9 @@ public class UsuarioServiceImpl implements UsuarioService {
         return usuarioRepository.findAll();
     }
 
+    @Override
+    public Usuario logearUsuario(Integer id) throws Exception {
+        return usuarioRepository.findById(id).get();
+    }
+
 }

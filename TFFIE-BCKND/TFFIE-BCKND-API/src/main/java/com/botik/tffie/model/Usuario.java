@@ -8,9 +8,8 @@ import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity
-
-@Table(name = "usuario")
 @Data
+@Table(name = "usuario")
 @NoArgsConstructor
 @AllArgsConstructor
 public class Usuario implements Serializable {

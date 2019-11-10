@@ -10,11 +10,10 @@ import java.io.Serializable;
 import java.util.Date;
 
 @Entity
-
 @Table(name = "tasa")
-@Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Data
 public class Tasa implements Serializable {
 
     @Id

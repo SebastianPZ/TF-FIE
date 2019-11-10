@@ -3,10 +3,7 @@ package com.botik.tffie.controller;
 import com.botik.tffie.model.Usuario;
 import com.botik.tffie.service.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -28,9 +25,14 @@ public class UsuarioController {
     }
 
     @RequestMapping
-    public List<Usuario> visualizarUsuariosRegistrados() throws Exception
+    public List<Usuario> listarUsuarios() throws Exception
     {
         return usuarioService.listarUsuarios();
+    }
+
+    @RequestMapping(path="/{id}", method = RequestMethod.GET)
+    public Usuario verPerfil(@PathVariable Integer id) throws Exception{
+        return usuarioService.logearUsuario(id);
     }
 
 }

@@ -10,11 +10,10 @@ import java.util.Date;
 
 
 @Entity
-
 @Table(name = "factura")
-@Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Data
 public class Factura implements Serializable {
 
     @Id
@@ -64,4 +63,7 @@ public class Factura implements Serializable {
 
     @Column (name="tasaDescontada", nullable = false)
     private float tasaDescontada;
+
+    @Column (name="tasaEfectivaFactura", nullable = false)
+    private float tasaEfectivaFactura;
 }
