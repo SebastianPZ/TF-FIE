@@ -25,10 +25,14 @@ public class Tasa implements Serializable {
     private Date fechaDescuento;
 
     @Column (name="valor", nullable = false)
-    private float valor;
+    private double valor;
 
     @Column (name="diasAnio", nullable = false)
-    private float diasAnio;
+    private int diasAnio;
+
+    @ManyToOne
+    @JoinColumn(name = "capitalizacion")
+    private Capitalizacion capitalizacion;
 
     @ManyToOne
     @JoinColumn(name = "tipoTasa")

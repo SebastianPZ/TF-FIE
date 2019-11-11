@@ -1,0 +1,53 @@
+{
+        "id": 1,
+        "fechaEmision": "2019-11-12T03:00:00.000+0000",
+        "fechaPago": "2019-11-18T03:00:00.000+0000",
+        "totalFacturado": 2000.0,
+        "retencion": 0.0,
+        "cartera": {
+            "id": 1,
+            "valorEntregado": 0.0,
+            "valorRecibido": 0.0,
+            "descuentoxDias": 0.0,
+            "valorNeto": 0.0,
+            "tcea": 0.0,
+            "tir": 0.0,
+            "usuario": {
+                "id": 1,
+                "nombres": "Sebastian",
+                "apellidos": "Pinillos",
+                "correo": "tuvieja@hotmail.com",
+                "contrasenia": "123"
+            },
+            "tasa": {
+                "id": 1,
+                "fechaDescuento": "2019-11-15T03:00:00.000+0000",
+                "valor": 25.0,
+                "diasAnio": 360.0,
+                "capitalizacion": {
+                    "id": 1,
+                    "nombre": "Diario",
+                    "dias": 1
+                },
+                "tipoTasa": {
+                    "id": 1,
+                    "nombre": "Efectiva"
+                },
+                "plazoTasa": {
+                    "id": 7,
+                    "nombre": "Anual",
+                    "numDias": 360
+                }
+            }
+        },
+        "tcea": 0.0,
+        "valorNeto": 0.0,
+        "valorREcibido": 0.0,
+        "valorEntregado": 0.0,
+        "dias": 0.0,
+        "descuento": 0.0,
+        "totalCostoInicial": 0.0,
+        "totalCostoFinal": 0.0,
+        "tasaDescontada": 0.0,
+        "tasaEfectivaFactura": 0.0
+    }

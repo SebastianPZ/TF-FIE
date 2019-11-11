@@ -22,8 +22,5 @@ public class TipoTasa implements Serializable {
     @Column (name="nTipoTasa", length = 50, nullable = false)
     private String nombre;
 
-    @ManyToOne
-    @JoinColumn(name = "capitalizacion")
-    private Capitalizacion capitalizacion;
 
 }

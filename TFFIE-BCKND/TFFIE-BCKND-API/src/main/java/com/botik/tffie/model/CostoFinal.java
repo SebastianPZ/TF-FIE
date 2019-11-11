@@ -23,7 +23,7 @@ public class CostoFinal implements Serializable {
     private String motivoCF;
 
     @Column (name="monto", length = 50, nullable = false)
-    private float montoCF;
+    private double montoCF;
 
     @ManyToOne
     @JoinColumn(name = "factura")

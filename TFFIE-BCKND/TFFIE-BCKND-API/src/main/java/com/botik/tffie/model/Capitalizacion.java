@@ -24,5 +24,5 @@ public class Capitalizacion implements Serializable {
     private String nombre;
 
     @Column (name="dias", nullable = false)
-    private Integer dias;
+    private int dias;
 }

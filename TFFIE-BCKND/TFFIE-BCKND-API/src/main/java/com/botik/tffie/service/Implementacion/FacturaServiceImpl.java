@@ -17,7 +17,7 @@ import java.util.List;
 @Service
 public class FacturaServiceImpl implements FacturaService {
 
-    FacturaRepository facturaRepository;
+    private FacturaRepository facturaRepository;
 
     @Autowired
     public FacturaServiceImpl(FacturaRepository facturaRepository){
@@ -26,17 +26,75 @@ public class FacturaServiceImpl implements FacturaService {
 
     @Override
     public Factura ingresarFactura(Factura f) throws Exception{
-        f.setDias(calcularNumDias(f));
-        f.setTasaEfectivaFactura(calcularTasaEfectivaFactura(f));
-        f.setTasaDescontada(calcularTasaDescontada(f));
-        f.setDescuento(calcularDescuento(f));
-        f.setTotalCostoInicial(calcularTotalCostoInicial(f));
-        f.setTotalCostoFinal(calcularTotalCostoFinal(f));
-        f.setValorNeto(calcularValorNeto(f));
-        f.setValorREcibido(calcularValorRecibido(f));
-        f.setValorEntregado(calcularValorEntregado(f));
-        f.setTcea(calcularTceaDeFactura(f));
+        f.setDias(0);
+        f.setTasaEfectivaFactura(0);
+        f.setTasaDescontada(0);
+        f.setDescuento(0);
+        f.setTotalCostoInicial(0);
+        f.setTotalCostoFinal(0);
+        f.setValorNeto(0);
+        f.setValorRecibido(0);
+        f.setValorEntregado(0);
+        f.setTcea(0);
         return facturaRepository.save(f);
+    }
+
+    @Override
+    public int calcularFactura(Factura f) throws Exception{
+        //Total Facturado
+        double tf = f.getTotalFacturado();
+        //Dias anio
+        double diasanio = (double)f.getCartera().getTasa().getDiasAnio();
+
+        //Numero de dias
+        int numDias =  (int)((f.getFechaPago().getTime() - f.getCartera().getTasa().getFechaDescuento().getTime())/86400000);
+        double te = Math.pow(1 + (f.getCartera().getTasa().getValor()/100), numDias/diasanio) - 1;
+        double td = te/(1 + te);
+        //Descuento
+        double desct = Math.rint(td * tf * 100)/100;
+        //Total Costo Inicial
+        double tci = 0;
+        ArrayList<CostoInicial> costosIniciales = new ArrayList<CostoInicial>();
+        costosIniciales = (ArrayList<CostoInicial>) facturaRepository.listarCostosInicialesDeFactura(f.getId());
+
+        for (CostoInicial data : costosIniciales) {
+            tci += data.getMontoCI();
+        }
+        //Total Costo Final
+        double tcf = 0;
+        ArrayList<CostoFinal> costosFinales = new ArrayList<CostoFinal>();
+        costosFinales = (ArrayList<CostoFinal>) facturaRepository.listarCostosFinalesDeFactura(f.getId());
+
+        for (CostoFinal data : costosFinales) {
+            tcf += data.getMontoCF();
+        }
+        //Valor Neto
+        double vn = f.getTotalFacturado() - desct;
+        //Valor Recibido
+        double vr = vn - f.getRetencion() - tci;
+        //Valor Entregado
+        double ve = f.getTotalFacturado() + tcf - f.getRetencion();
+        //TCEA
+        double tcea = Math.pow((ve/vr), (diasanio/numDias)) - 1;
+
+
+        facturaRepository.actualizarDias(numDias, f.getId());
+        facturaRepository.actualizarTasaEfectivaFactura(Math.rint(te*1000000000)/10000000, f.getId());
+        facturaRepository.actualizarTasaDescontada(Math.rint(td*1000000000)/10000000, f.getId());
+        facturaRepository.actualizarDescuento(desct, f.getId());
+        facturaRepository.actualizarTotalCostoInicial(tci, f.getId());
+        facturaRepository.actualizarTotalCostoFinal(tcf, f.getId());
+        facturaRepository.actualizarValorNeto(vn, f.getId());
+        facturaRepository.actualizarValorRecibido(vr, f.getId());
+        facturaRepository.actualizarValorEntregado(ve, f.getId());
+        facturaRepository.actualizarTcea(Math.rint(tcea*1000000000)/10000000, f.getId());
+
+        return 1;
+    }
+
+    @Override
+    public List<Factura> listarFacturas() throws Exception{
+        return facturaRepository.findAll();
     }
 
     @Override
@@ -50,96 +108,4 @@ public class FacturaServiceImpl implements FacturaService {
     }
 
 
-    //METODOS PARA CALCULAR VALORES
-
-   //Numero de dias efectivo entre fecha de pago y fecha de descuento
-    @Override
-    public int calcularNumDias(Factura f) throws Exception{
-        int numDias = 0;
-        numDias =  (int) ((f.getFechaPago().getTime() - f.getCartera().getTasa().getFechaDescuento().getTime())/86400000);
-        return numDias;
-    }
-
-    //Tasa efectiva del periodo
-    @Override
-    public float calcularTasaEfectivaFactura(Factura f) throws Exception{
-        float te = 0;
-        te = (float) Math.pow((1 + (f.getCartera().getTasa().getValor()/100)), (f.getDias()/f.getCartera().getTasa().getDiasAnio())) -1;
-        return te;
-    }
-
-    //Tasa descontada del periodo
-    @Override
-    public float calcularTasaDescontada(Factura f) throws Exception{
-        float td = 0;
-        td = (float) f.getTasaEfectivaFactura()/(1 + f.getTasaEfectivaFactura());
-        return td;
-    }
-
-    //Descuento total
-    @Override
-    public float calcularDescuento(Factura f) throws Exception{
-        float desct = 0;
-        desct = Math.round(f.getTasaDescontada() * f.getTotalFacturado()) * 100 / 100;
-        return desct;
-    }
-
-    //Total Costo Inicial
-    @Override
-    public float calcularTotalCostoInicial(Factura f) throws Exception{
-        float tci = 0;
-        ArrayList<CostoInicial> costosIniciales = new ArrayList<CostoInicial>();
-        costosIniciales = (ArrayList<CostoInicial>) facturaRepository.listarCostosInicialesDeFactura(f.getId());
-
-        for (CostoInicial data : costosIniciales) {
-            tci += data.getMontoCI();
-        }
-        return tci;
-    }
-
-    //Total Costo Final
-    @Override
-    public float calcularTotalCostoFinal(Factura f) throws Exception{
-        float tci = 0;
-        ArrayList<CostoFinal> costosFinales = new ArrayList<CostoFinal>();
-        costosFinales = (ArrayList<CostoFinal>) facturaRepository.listarCostosFinalesDeFactura(f.getId());
-
-        for (CostoFinal data : costosFinales) {
-            tci += data.getMontoCF();
-        }
-        return tci;
-    }
-
-
-    //Valor neto
-    @Override
-    public float calcularValorNeto(Factura f) throws Exception{
-        float vn = 0;
-        vn = f.getTotalFacturado() - f.getDescuento();
-        return vn;
-    }
-
-    //Valor recibido
-    @Override
-    public float calcularValorRecibido(Factura f) throws Exception{
-        float vr = 0;
-        vr = f.getValorNeto() - f.getRetencion() - f.getTotalCostoInicial();
-        return vr;
-    }
-
-    //Valor entregado
-    @Override
-    public float calcularValorEntregado(Factura f) throws Exception{
-        float ve = 0;
-        ve = f.getTotalFacturado() + f.getTotalCostoFinal() - f.getRetencion();
-        return ve;
-    }
-
-    //TCEA de Factura
-    @Override
-    public float calcularTceaDeFactura(Factura f) throws Exception{
-        float tcea = 0;
-        tcea = (float) Math.pow((f.getValorEntregado()/f.getValorREcibido()), (f.getCartera().getTasa().getDiasAnio()/f.getDias())) - 1;
-        return tcea;
-    }
 }

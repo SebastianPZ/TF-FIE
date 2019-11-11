@@ -24,7 +24,7 @@ public class CostoInicial implements Serializable {
     private String motivoCI;
 
     @Column (name="monto", length = 50, nullable = false)
-    private float montoCI;
+    private double montoCI;
 
     @ManyToOne
     @JoinColumn(name = "factura")

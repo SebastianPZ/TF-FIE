@@ -1,0 +1,48 @@
+
+
+//Para actualizar hora de base de datos
+SET GLOBAL time_zone = '-3:00';
+
+//Ingresar Capitalizaciones
+insert into capitalizacion (dias, n_capitalizacion) values (1 , 'Diario');
+insert into capitalizacion (dias, n_capitalizacion) values (15 , 'Quincenal');
+insert into capitalizacion (dias, n_capitalizacion) values (30 , 'Mensual');
+insert into capitalizacion (dias, n_capitalizacion) values (60 , 'Bimestral');
+insert into capitalizacion (dias, n_capitalizacion) values (90 , 'Trimestral');
+insert into capitalizacion (dias, n_capitalizacion) values (120 , 'Cuatrimestral');
+insert into capitalizacion (dias, n_capitalizacion) values (180 , 'Semestral');
+insert into capitalizacion (dias, n_capitalizacion) values (360 , 'Anual');
+
+//Ingresar Tipos de Tasa
+insert into tipo_tasa (n_tipo_tasa) values ('Efectiva');
+insert into tipo_tasa (n_tipo_tasa) values ('Nominal');
+
+//Ingresar Plazos de Tasa
+insert into plazo_tasa(n_plazo_tasa, num_dias) values('Quincenal', 15);
+insert into plazo_tasa(n_plazo_tasa, num_dias) values('Mensual', 30);
+insert into plazo_tasa(n_plazo_tasa, num_dias) values('Bimestral', 60);
+insert into plazo_tasa(n_plazo_tasa, num_dias) values('Trimestral', 90);
+insert into plazo_tasa(n_plazo_tasa, num_dias) values('Cuatrimestral', 120);
+insert into plazo_tasa(n_plazo_tasa, num_dias) values('Semestral', 180);
+insert into plazo_tasa(n_plazo_tasa, num_dias) values('Anual', 360);
+
+//*DATOS INGRESADOS ALEATORIOS*//
+
+//Ingresar usuario
+insert into usuario (apellidos, contrasenia, correo, nombres) values ('Pinillos', '123', 'tuvieja@hotmail.com', 'Sebastian');
+
+//Ingresar tasa
+insert into tasa (dias_anio, fecha_descuento, valor, capitalizacion, plazo_tasa, tipo_tasa) values (360, '2019-11-15', 25, 1, 7, 1);
+
+//Ingresar cartera
+insert into cartera (descuentox_dias, tcea, tir, valor_entregado, valor_neto, valor_recibido, tasa, usuario) values (0, 0, 0, 0, 0, 0, 1, 1);
+
+//Ingresar factura
+insert into factura(descuento, dias, fecha_emision, fecha_pago, retencion, tasa_descontada, tasa_efectiva_factura, tcea, total_costo_final, total_costo_inicial, total_facturado, valor_entregado, valor_neto, valorrecibido, cartera) values
+(0, 0, '2019-11-12', '2019-11-18', 0, 0, 0, 0, 0, 0, 2000, 0, 0, 0, 1);
+
+//Ingresar Costo Inicial
+insert into costo_inicial (monto, motivo, factura) values (0, 'Arroz', 1);
+
+//Ingresar Costo Final
+insert into costo_final (monto, motivo, factura) values (0, 'Arroz', 1);

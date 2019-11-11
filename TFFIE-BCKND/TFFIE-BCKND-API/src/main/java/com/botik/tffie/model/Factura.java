@@ -28,42 +28,42 @@ public class Factura implements Serializable {
     private Date fechaPago;
 
     @Column (name="totalFacturado", nullable = false)
-    private float totalFacturado;
+    private double totalFacturado;
 
     @Column (name="retencion", nullable = false)
-    private float retencion;
+    private double retencion;
 
     @ManyToOne
     @JoinColumn(name = "cartera")
     private Cartera cartera;
 
     @Column (name="tcea", nullable = false)
-    private float tcea;
+    private double tcea;
 
     @Column (name="valorNeto", nullable = false)
-    private float valorNeto;
+    private double valorNeto;
 
-    @Column (name="valorREcibido", nullable = false)
-    private float valorREcibido;
+    @Column (name="valorRecibido", nullable = false)
+    private double valorRecibido;
 
     @Column (name="valorEntregado", nullable = false)
-    private float valorEntregado;
+    private double valorEntregado;
 
     @Column (name="dias", nullable = false)
-    private float dias;
+    private int dias;
 
     @Column (name="descuento", nullable = false)
-    private float descuento;
+    private double descuento;
 
     @Column (name="totalCostoInicial", nullable = false)
-    private float totalCostoInicial;
+    private double totalCostoInicial;
 
     @Column (name="totalCostoFinal", nullable = false)
-    private float totalCostoFinal;
+    private double totalCostoFinal;
 
     @Column (name="tasaDescontada", nullable = false)
-    private float tasaDescontada;
+    private double tasaDescontada;
 
     @Column (name="tasaEfectivaFactura", nullable = false)
-    private float tasaEfectivaFactura;
+    private double tasaEfectivaFactura;
 }

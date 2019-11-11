@@ -20,22 +20,22 @@ public class Cartera implements Serializable {
     private Integer id;
 
     @Column (name="valorEntregado", length = 50, nullable = false)
-    private float valorEntregado;
+    private double valorEntregado;
 
     @Column (name="valorRecibido", length = 50, nullable = false)
-    private float valorRecibido;
+    private double valorRecibido;
 
     @Column (name="descuentoxDias", length = 50, nullable = false)
-    private float descuentoxDias;
+    private double descuentoxDias;
 
     @Column (name="valorNeto", length = 50, nullable = false)
-    private float valorNeto;
+    private double valorNeto;
 
     @Column (name="tcea", length = 50, nullable = false)
-    private float tcea;
+    private double tcea;
 
     @Column (name="tir", length = 50, nullable = false)
-    private float tir;
+    private double tir;
 
     @ManyToOne
     @JoinColumn(name = "usuario")

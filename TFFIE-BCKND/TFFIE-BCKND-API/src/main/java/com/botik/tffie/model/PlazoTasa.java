@@ -24,6 +24,6 @@ public class PlazoTasa implements Serializable {
     private String nombre;
 
     @Column (name="numDias", length = 50 , nullable = false )
-    private Integer numDias;
+    private int numDias;
 
 }
